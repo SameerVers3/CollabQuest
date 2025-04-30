@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&family=Nunito:wght@400;700&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'OpenDyslexic';
   src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/fonts/OpenDyslexic-Regular.woff') format('woff');
@@ -14,132 +18,103 @@
   font-style: normal;
 }
 
-:root {
-  --primary-color: #6b5ca5;
-  --secondary-color: #8fb8de;
-  --accent-color: #f7c978;
-  --bg-gradient: linear-gradient(135deg, #e0e6f2 0%, #c5d5ea 100%);
-  --font-regular: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
-  --font-pixel: 'VT323', monospace;
-  --font-dyslexic: 'OpenDyslexic', 'Comic Sans MS', cursive;
-  --border-radius: 12px;
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
-
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  padding: 10px;
-}
-
-@media (min-width: 768px) {
-  body {
-    padding: 20px;
-  }
-}
-
-h1 {
-  font-size: 2.2rem;
-  font-family: var(--font-pixel);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-h2 {
-  font-size: 1.5rem;
-  font-family: var(--font-pixel);
-  letter-spacing: 1px;
-}
-
-h3 {
-  font-size: 1.2rem;
-}
-
-@media (min-width: 768px) {
-  h1 {
-    font-size: 3.2rem;
-  }
-  
-  h2 {
-    font-size: 1.8rem;
-  }
-  
-  h3 {
-    font-size: 1.4rem;
-  }
-}
-
-button {
-  border-radius: var(--border-radius);
-  border: 1px solid transparent;
-  padding: 0.5em 1em;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-@media (min-width: 768px) {
-  button {
-    padding: 0.6em 1.2em;
-    font-size: 1rem;
-  }
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --primary-color: #FFB6C1;
+    --secondary-color: #87CEEB;
+    --accent-color: #FFDAB9;
+    --font-regular: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+    --font-pixel: 'VT323', monospace;
+    --font-dyslexic: 'OpenDyslexic', 'Comic Sans MS', cursive;
   }
-  a:hover {
-    color: #747bff;
+
+  body {
+    @apply min-h-screen bg-gradient-to-br from-soft-pink via-soft-lavender to-soft-sky;
+    font-family: var(--font-regular);
   }
-  button {
-    background-color: #f9f9f9;
+
+  h1, h2 {
+    font-family: var(--font-pixel);
+    @apply text-soft-pearl drop-shadow-[0_2px_2px_rgba(0,0,0,0.1)];
   }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@layer components {
+  .pixel-border {
+    @apply border-4 border-soft-coral rounded-lg shadow-soft hover:shadow-glow transition-all duration-300;
+  }
+  
+  .pixel-button {
+    @apply px-6 py-3 bg-soft-coral text-white rounded-lg 
+           hover:bg-soft-peach transition-all duration-300
+           shadow-soft hover:shadow-glow
+           transform hover:scale-105
+           font-pixel text-lg
+           relative overflow-hidden;
+    
+    &::before {
+      content: '';
+      @apply absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300;
+    }
+    
+    &:hover::before {
+      @apply opacity-100;
+    }
+  }
+  
+  .pixel-card {
+    @apply bg-soft-cream/90 p-6 rounded-lg 
+           shadow-soft hover:shadow-glow 
+           transition-all duration-300
+           backdrop-blur-xs
+           border border-soft-rose/30
+           hover:border-soft-coral/50;
+  }
 
-html, body {
-  font-family: var(--font-regular);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-gradient);
-  color: #333;
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden;
+  .pixel-input {
+    @apply w-full px-4 py-2 rounded-lg
+           bg-soft-pearl/50 border-2 border-soft-lavender/50
+           focus:border-soft-coral focus:ring-2 focus:ring-soft-coral/20
+           transition-all duration-300
+           placeholder-soft-lavender/70;
+  }
+
+  .pixel-select {
+    @apply w-full px-4 py-2 rounded-lg
+           bg-soft-pearl/50 border-2 border-soft-lavender/50
+           focus:border-soft-coral focus:ring-2 focus:ring-soft-coral/20
+           transition-all duration-300
+           cursor-pointer;
+  }
+
+  .pixel-checkbox {
+    @apply w-5 h-5 rounded
+           border-2 border-soft-lavender/50
+           focus:border-soft-coral focus:ring-2 focus:ring-soft-coral/20
+           transition-all duration-300
+           cursor-pointer;
+  }
+
+  .pixel-radio {
+    @apply w-5 h-5 rounded-full
+           border-2 border-soft-lavender/50
+           focus:border-soft-coral focus:ring-2 focus:ring-soft-coral/20
+           transition-all duration-300
+           cursor-pointer;
+  }
+
+  .pixel-tooltip {
+    @apply absolute invisible group-hover:visible
+           bg-soft-pearl text-soft-coral
+           px-3 py-1 rounded-lg text-sm
+           shadow-soft
+           transform -translate-y-2
+           transition-all duration-300;
+  }
 }
 
 /* Apply dyslexic font when class is added to html */
-html.dyslexia-font {
+html.font-dyslexia {
   font-family: var(--font-dyslexic);
   line-height: 1.5;
   letter-spacing: 0.1em;
@@ -148,15 +123,32 @@ html.dyslexia-font {
 
 /* Apply high contrast when class is added to html */
 html.high-contrast {
-  background: #000;
-  color: #fff;
+  @apply bg-black text-white;
 }
 
 html.high-contrast * {
-  --primary-color: #0000ff;
-  --secondary-color: #ffffff;
-  --accent-color: #ffff00;
-  --bg-gradient: #000000;
-  color: #ffffff;
-  background-color: #000000;
+  @apply bg-black text-white;
+}
+
+html.high-contrast .pixel-card {
+  @apply bg-gray-900 border-gray-700;
+}
+
+html.high-contrast .pixel-button {
+  @apply bg-white text-black hover:bg-gray-200;
+}
+
+/* Focus mode styles */
+html.focus-mode {
+  .pixel-button {
+    @apply hover:scale-100 hover:shadow-none;
+  }
+  
+  .pixel-card {
+    @apply hover:shadow-none;
+  }
+  
+  * {
+    @apply transition-none;
+  }
 }
