@@ -3,12 +3,13 @@
   --primary-color: #6b5ca5;
   --secondary-color: #8fb8de;
   --accent-color: #f7c978;
-  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #dbe4f0 100%);
+  --bg-gradient: linear-gradient(135deg, #e0e6f2 0%, #c5d5ea 100%);
   --font-regular: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
   --font-dyslexic: 'OpenDyslexic', 'Comic Sans MS', cursive;
   --border-radius: 12px;
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
+  --pixel-border: 4px;
 }
 
 /* Accessibility classes */
@@ -85,6 +86,28 @@ header {
   padding: 20px 0;
   margin-bottom: 30px;
   gap: 20px;
+  position: relative;
+}
+
+/* Title with pixel art border */
+header h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  text-align: center;
+  padding: 10px 20px;
+  position: relative;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-image: linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+  background-size: 8px 4px;
 }
 
 /* Tablet and desktop header */
@@ -93,15 +116,7 @@ header {
     flex-direction: row;
     justify-content: space-between;
   }
-}
-
-header h1 {
-  color: var(--primary-color);
-  font-size: 2rem;
-  text-align: center;
-}
-
-@media (min-width: 768px) {
+  
   header h1 {
     font-size: 2.5rem;
     text-align: left;
@@ -122,12 +137,33 @@ main {
   }
 }
 
-/* Sections */
+/* Sections with pixel-art borders */
 section {
   background: rgba(255, 255, 255, 0.9);
   border-radius: var(--border-radius);
   padding: 15px;
   box-shadow: var(--box-shadow);
+  position: relative;
+  border: 2px solid var(--primary-color);
+  overflow: hidden;
+}
+
+section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+    linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+    linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+    linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
 }
 
 @media (min-width: 768px) {
@@ -142,6 +178,21 @@ section {
   margin-bottom: 15px;
   font-size: 1.5rem;
   text-align: center;
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.doodle-upload h2::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-image: linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+  background-size: 6px 2px;
 }
 
 @media (min-width: 768px) {
@@ -164,6 +215,26 @@ section {
   margin-bottom: 15px;
   padding: 15px;
   transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.doodle-drop-area::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(45deg, 
+    var(--secondary-color) 25%, 
+    transparent 25%, 
+    transparent 75%, 
+    var(--secondary-color) 75%
+  );
+  background-size: 16px 16px;
+  opacity: 0.05;
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -206,16 +277,31 @@ section {
   align-items: center;
   gap: 10px;
   width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .doodle-placeholder p {
   font-size: 1rem;
   color: var(--secondary-color);
+  font-weight: bold;
+}
+
+.doodle-placeholder p:first-of-type {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 @media (min-width: 768px) {
   .doodle-placeholder p {
     font-size: 1.2rem;
+  }
+  
+  .doodle-placeholder p:first-of-type {
+    font-size: 1.4rem;
   }
 }
 
@@ -223,6 +309,9 @@ section {
   max-width: 100%;
   max-height: 180px;
   object-fit: contain;
+  border: 2px solid var(--primary-color);
+  padding: 4px;
+  background-color: white;
 }
 
 @media (min-width: 768px) {
@@ -248,13 +337,35 @@ input[type="file"] {
 .or-text {
   color: var(--secondary-color);
   margin: 8px 0;
+  position: relative;
 }
 
-.upload-button {
+.or-text::before, .or-text::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 2px;
+  background-image: linear-gradient(to right, var(--secondary-color) 50%, transparent 50%);
+  background-size: 4px 2px;
+}
+
+.or-text::before {
+  right: 100%;
+  margin-right: 5px;
+}
+
+.or-text::after {
+  left: 100%;
+  margin-left: 5px;
+}
+
+/* Pixel art buttons */
+.upload-button, .clear-button, .timer-button {
   background-color: var(--primary-color);
   color: white;
   padding: 8px 16px;
-  border-radius: 20px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
   transition: var(--transition);
@@ -262,44 +373,50 @@ input[type="file"] {
   width: 100%;
   max-width: 200px;
   text-align: center;
+  position: relative;
+  border: none;
+  box-shadow: 
+    inset -2px -2px 0 rgba(0,0,0,0.2),
+    inset 2px 2px 0 rgba(255,255,255,0.2);
+}
+
+.upload-button::after, .clear-button::after, .timer-button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(to right, transparent 90%, rgba(255,255,255,0.1) 90%),
+    linear-gradient(to bottom, transparent 90%, rgba(255,255,255,0.1) 90%);
+  background-size: 10px 10px;
+  opacity: 0.3;
+  pointer-events: none;
+  border-radius: 8px;
 }
 
 @media (min-width: 768px) {
-  .upload-button {
+  .upload-button, .clear-button, .timer-button {
     padding: 10px 20px;
     font-size: 1rem;
   }
 }
 
-.upload-button:hover {
+.upload-button:hover, .timer-button:hover {
   background-color: var(--secondary-color);
+  transform: translateY(-2px);
 }
 
 .clear-button {
   background-color: var(--accent-color);
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: var(--transition);
-  font-size: 0.9rem;
-  width: 100%;
-  max-width: 200px;
   display: block;
   margin: 0 auto;
 }
 
-@media (min-width: 768px) {
-  .clear-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-  }
-}
-
 .clear-button:hover {
   opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 /* Pomodoro Timer styles */
@@ -309,6 +426,22 @@ input[type="file"] {
   margin-bottom: 15px;
   font-size: 1.5rem;
   text-align: center;
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pomodoro-timer h2::after,
+.pomodoro-timer h3::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-image: linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+  background-size: 6px 2px;
 }
 
 .pomodoro-timer h3 {
@@ -328,18 +461,37 @@ input[type="file"] {
   }
 }
 
-/* Timer display */
+/* Timer display with pixel art styling */
 .timer-display {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 15px;
+  height: 70px;
+  border: 2px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  background-color: rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+}
+
+.timer-display::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: 
+    linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.02) 50%);
+  background-size: 2px 2px;
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
   .timer-display {
     margin-bottom: 20px;
+    height: 90px;
   }
 }
 
@@ -347,11 +499,17 @@ input[type="file"] {
   font-size: 2.5rem;
   font-weight: bold;
   color: var(--primary-color);
+  position: relative;
+  z-index: 2;
+  font-family: monospace;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
 }
 
 @media (min-width: 768px) {
   .time {
     font-size: 3rem;
+    letter-spacing: 3px;
   }
 }
 
@@ -372,7 +530,12 @@ input[type="file"] {
   justify-content: space-between;
   align-items: center;
   animation: pulse 1.5s infinite;
-  z-index: 1;
+  z-index: 3;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 @keyframes pulse {
@@ -416,8 +579,8 @@ input[type="file"] {
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 20px;
-  padding: 8px 20px;
+  border-radius: 8px;
+  padding: 8px 16px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: var(--transition);
@@ -426,18 +589,22 @@ input[type="file"] {
 
 @media (min-width: 768px) {
   .timer-button {
-    padding: 10px 30px;
+    padding: 10px 20px;
     font-size: 1rem;
+    width: 130px;
   }
 }
 
 .timer-button:hover {
   background-color: var(--secondary-color);
+  transform: translateY(-2px);
 }
 
 .timer-button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .reset {
@@ -463,6 +630,13 @@ textarea {
   transition: var(--transition);
   resize: vertical;
   min-height: 80px;
+  background-color: rgba(255, 255, 255, 0.9);
+  position: relative;
+  font-family: inherit;
+}
+
+textarea::placeholder {
+  color: rgba(107, 92, 165, 0.5);
 }
 
 @media (min-width: 768px) {
@@ -476,6 +650,7 @@ textarea {
 textarea:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(107, 92, 165, 0.2);
 }
 
 /* Accessibility Options */
@@ -499,6 +674,10 @@ textarea:focus {
   position: relative;
   z-index: 20;
   box-shadow: var(--box-shadow);
+}
+
+.accessibility-toggle svg {
+  filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.2));
 }
 
 .sr-only {
@@ -527,6 +706,26 @@ textarea:focus {
   visibility: hidden;
   transition: all 0.3s ease;
   z-index: 10;
+  border: 2px solid var(--primary-color);
+}
+
+.options-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+    linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+    linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+    linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+  background-position: 0 0, 0 100%, 0 0, 100% 0;
+  background-size: 8px 2px, 8px 2px, 2px 8px, 2px 8px;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  opacity: 0.7;
 }
 
 .options-panel.open {
@@ -544,6 +743,11 @@ textarea:focus {
     box-shadow: none;
     width: 100%;
     padding: 0;
+    border: none;
+  }
+  
+  .options-panel::before {
+    display: none;
   }
   
   .accessibility-toggle {
@@ -556,6 +760,8 @@ textarea:focus {
   margin-bottom: 15px;
   font-size: 1.2rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 768px) {
@@ -570,6 +776,8 @@ textarea:focus {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 768px) {
@@ -621,6 +829,18 @@ textarea:focus {
   background-color: #ccc;
   transition: .4s;
   border-radius: 34px;
+  overflow: hidden;
+}
+
+.toggle-slider::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%);
+  background-size: 6px 6px;
+  opacity: 0.2;
 }
 
 .toggle-slider:before {
@@ -633,6 +853,8 @@ textarea:focus {
   background-color: white;
   transition: .4s;
   border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 @media (min-width: 768px) {
@@ -656,13 +878,26 @@ input:checked + .toggle-slider:before {
   }
 }
 
-/* Footer */
+/* Footer with pixel art styling */
 footer {
   text-align: center;
   padding: 20px 0;
   margin-top: 30px;
   color: var(--primary-color);
   font-size: 0.9rem;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background-image: linear-gradient(to right, transparent, var(--primary-color) 20%, var(--primary-color) 80%, transparent);
+  opacity: 0.3;
 }
 
 @media (min-width: 768px) {
@@ -671,30 +906,50 @@ footer {
   }
 }
 
-/* Add some pixel art decorations */
+/* Pixel art decorations */
 .pixel-decoration {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   background-color: var(--accent-color);
   position: relative;
   margin: 0 auto;
-}
-
-.pixel-decoration::before,
-.pixel-decoration::after {
-  content: '';
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: var(--primary-color);
+  box-shadow: 
+    4px 0 0 0 var(--accent-color),
+    0 4px 0 0 var(--accent-color),
+    4px 4px 0 0 var(--accent-color),
+    8px 0 0 0 var(--accent-color),
+    0 8px 0 0 var(--accent-color);
 }
 
 .pixel-decoration::before {
-  top: 0;
-  left: 0;
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: var(--primary-color);
+  top: 4px;
+  left: 4px;
+  box-shadow: 
+    4px 0 0 0 var(--primary-color),
+    0 4px 0 0 var(--primary-color),
+    4px 4px 0 0 var(--primary-color);
 }
 
-.pixel-decoration::after {
-  bottom: 0;
-  right: 0;
+/* Position pixel decorations */
+.top-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.top-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+}
+
+footer .pixel-decoration {
+  margin-bottom: 15px;
 }

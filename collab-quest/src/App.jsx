@@ -16,15 +16,18 @@ function App() {
       
       <main>
         <section className="doodle-section">
+          <div className="pixel-decoration top-left"></div>
           <DoodleUpload />
         </section>
         
         <section className="pomodoro-section">
+          <div className="pixel-decoration top-right"></div>
           <PomodoroTimer />
         </section>
       </main>
       
       <footer>
+        <div className="pixel-decoration"></div>
         <p>CollabQuest - Create together</p>
       </footer>
     </div>
